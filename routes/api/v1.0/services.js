@@ -8,7 +8,7 @@ const express = require('express')
 
 const route = express.Router()
 
-// metodos de peticion GET, POTS, PUT, DELETE
+//////////// metodos de peticion GET, POTS, PUT, DELETE///////////////////////////////
 
 route.get('/', (req, res) =>{
     res.status(200).send({ message:'Service api-rest Product Store'})
@@ -83,34 +83,42 @@ route.get('/login/:email=:password', (req, res) =>{
 })
 
 
-//editar edtar el role------------------------------
+//-----------Editar roles de usuario------------------------------
 route.get('/editrole/:email=:password=:role', (req, res, next)=>{
-   // console.log(req.params)
+//console.log(req.params)
 
+    
     let email = req.params.email
     let password = req.params.password
     let role = req.params.role
+
+    console.log(':::::::'+role)
 
     Registro.find({"email":email,"password":password},(err, user) =>{
         if(err) return res.status(500).send({menssage:`Error en la peticion: ${err}`})
         if(user.length == 0) return res.status(404).send({message:`usuario no existe o no tiene privilegios de administrador`})
         
-    
-        Registro.findOneAndUpdate({_id:user[0]._id}, {role:role}, (err, params) => {
-            console.log(user[0]._id)
+            
+        var id=user[0]._id
+        var name=user.name
+        
+        Registro.findByIdAndUpdate(id, {role:role}, (err, doc) => {
+            //console.log(user[0]._id)
+            //console.log('::::::'+res);
+            console.log(doc)
             if(err) {
               res.status(500).json({
                 "msn": "Error no se pudo actualizar los datos"
               });
               return;
             }
-            const p=params
-            //res.status(200).json(params);
-            return;
+            
+            res.status(200).send({email, role})
+            
         });
-
-        res.status(200).send({'email':user})
-    })
+        
+       
+    })  
 });
 
 
