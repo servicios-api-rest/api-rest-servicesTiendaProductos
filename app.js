@@ -7,6 +7,12 @@ const cors = require('cors');
 const bodyParser = require('body-parser')
 const morgan = require('morgan');
 
+//use log4js
+const log4js = require('log4js');
+const logger = log4js.getLogger();
+logger.lavel = 'debug';
+logger.debug("mensaje de depuracion(debug)");
+
 
 const app = express()
 app.use(cors());
@@ -22,7 +28,7 @@ app.use(bodyParser.json())
 
 
 
-//servicios del api-rset 
+//rutas de los servicios del api-rset 
 app.use('/api/v1.0/',service)
 app.use(service)
 
