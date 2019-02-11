@@ -68,6 +68,7 @@ route.get('/list/:email', (req, res) =>{
 })
 
 //---------------signin----------------------------
+
 route.get('/login/:email=:password', (req, res) =>{
     //res.send({ email:`${req.params.email}`,password:`${req.params.pass}`})
     console.log(req.params)
@@ -81,6 +82,27 @@ route.get('/login/:email=:password', (req, res) =>{
         res.status(200).send({'email':user})
     })
 })
+
+
+
+route.post('/login2', (req, res) =>{
+    //res.send({ email:`${req.params.email}`,password:`${req.params.pass}`})
+    console.log(req.body)
+
+    let email = req.body.email
+    let password = req.body.password
+
+    Registro.find({"email":email,"password":password}, (err, user) =>{
+        if(err) return res.status(404).send({menssage:`Error en la peticion: ${err}`})
+        if(user.length == 0) return res.status(404).send({message:`Email o Clave Incorrectos`})
+        //if(user.email != email) return  res.status(404).send({message:'email no encontrado'})
+        //if(user.password != password ) return res.status(404).send({message:'passqword incorrecto'})
+        res.status(200).send(user)
+    })
+})
+
+
+
 
 
 //-----------Editar roles de usuario------------------------------
