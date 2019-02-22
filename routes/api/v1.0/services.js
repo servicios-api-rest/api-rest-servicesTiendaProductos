@@ -152,14 +152,14 @@ route.get('/user', (req, res, next)=>{
     var user2= user.map(u=>{
             return ({
                 id:u.id,
-                name:u.name,
-                lastname:u.lastname,
-                password:u.password,
+                name:u.nambre,
+                lastname:u.apellido,
+                password:u.clave,
                 email:u.email,
                 role: u.role
             })
         })
-        
+
 
         res.status(200).send(user2);
     })
